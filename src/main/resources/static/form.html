@@ -30,7 +30,7 @@
 	      
 	      <ul class="nav navbar-nav navbar-right">
 	        <li><a href="/form.html">Sign up</a></li>
-	        <li><a href="/list.html">User List</a></li>
+	        <li><a href="/list">User List</a></li>
 	      </ul>
 	    </div>
 	    <!-- /.navbar-collapse -->
@@ -38,22 +38,22 @@
 	  <!-- /.container-fluid -->
 	</nav>
 	<div class="container">
-	<form>
+	<form action="/create" method="post">
 	  <div class="form-group">
 	    <label for="userId">User ID</label>
-	    <input type="text" class="form-control" id="userId" placeholder="User ID">
+	    <input type="text" class="form-control" name="userId" placeholder="User ID">
 	  </div>
 	  <div class="form-group">
 	    <label for="password">Password</label>
-	    <input type="password" class="form-control" id="password" placeholder="Password">
+	    <input type="password" class="form-control" name="password" placeholder="Password">
 	  </div>
 	  <div class="form-group">
 	    <label for="name">Name</label>
-	    <input type="text" class="form-control" id="name" placeholder="Name">
+	    <input type="text" class="form-control" name="name" placeholder="Name">
 	  </div>
 	  <div class="form-group">
 	    <label for="email">Email address</label>
-	    <input type="email" class="form-control" id="email" placeholder="Email">
+	    <input type="email" class="form-control" name="email" placeholder="Email">
 	  </div>
 	  <button type="submit" class="btn btn-default">Submit</button>
 	</form>
