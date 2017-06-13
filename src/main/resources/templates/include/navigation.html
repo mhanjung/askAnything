@@ -49,10 +49,14 @@
         <div class="collapse navbar-collapse" id="navbar-collapse2">
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="/">Posts</a></li>
+                {{^user}}
                 <li><a href="/users/loginForm" role="button">Sign in</a></li>
                 <li><a href="/users/form" role="button">Sign up</a></li>
-                <li><a href="#" role="button">Sign out</a></li>
+                {{/user}}
+                {{#user}}
+                <li><a href="/users/logout" role="button">Sign out</a></li>
                 <li><a href="#" role="button">Profile</a></li>
+                {{/user}}
             </ul>
         </div>
     </div>

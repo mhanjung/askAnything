@@ -61,6 +61,12 @@ public class UserController {
     return "redirect:/";
   }
   
+  @GetMapping("/logout")
+  public String logout(HttpSession session){
+    session.removeAttribute("user");
+    return "redirect:/";
+  }
+  
   @GetMapping("/{id}/form")
   public String updateForm(@PathVariable Long id, Model model){
     User user = userRepository.findOne(id);
