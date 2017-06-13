@@ -56,28 +56,48 @@ public class UserController {
       return "redirect:/users/loginForm";
     }
     System.out.println("Login Success!");
-    session.setAttribute("user", user);
+    session.setAttribute("sessionUser", user);
     
     return "redirect:/";
   }
   
   @GetMapping("/logout")
   public String logout(HttpSession session){
-    session.removeAttribute("user");
+    session.removeAttribute("sessionUser");
     return "redirect:/";
   }
   
   @GetMapping("/{id}/form")
-  public String updateForm(@PathVariable Long id, Model model){
+  public String updateForm(@PathVariable Long id, Model model, HttpSession session){
+    Object tempUser = session.getAttribute("sessionUser");
+    if(tempUser == null){
+      return "redirect:/users/loginForm";
+    }
+    
+    User sessionUser = (User)tempUser;
+    if(!id.equals(sessionUser.getId())){
+      throw new IllegalStateException("You can only edit your profile.");
+    }
+    
     User user = userRepository.findOne(id);
     model.addAttribute("user", user);
     return "/user/updateForm";
   }
   
   @PutMapping("/{id}")
-  public String update(@PathVariable Long id, User newUser){
+  public String update(@PathVariable Long id, User updatedUser, HttpSession session){
+    Object tempUser = session.getAttribute("sessionUser");
+    if(tempUser == null){
+      return "redirect:/users/loginForm";
+    }
+    
+    User sessionUser = (User)tempUser;
+    if(!id.equals(sessionUser.getId())){
+      throw new IllegalStateException("You can only edit your profile.");
+    }
+    
     User user = userRepository.findOne(id);
-    user.update(newUser);
+    user.update(updatedUser);
     userRepository.save(user);
     return "redirect:/users";
   }
