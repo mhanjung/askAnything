@@ -5,11 +5,14 @@ import javax.persistence.ForeignKey;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import com.askAnything.LocalDateTimeConverter;
 
 @Entity
 public class Question {
@@ -25,6 +28,7 @@ public class Question {
   
   private String contents;
   
+  @Convert(converter = LocalDateTimeConverter.class)
   private LocalDateTime createDate;
   
   public Question(){}
@@ -43,4 +47,14 @@ public class Question {
     }
     return createDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd.HH:mm:ss"));
   }
+
+  public void update(String title, String contents) {
+    this.title = title;
+    this.contents = contents;
+  }
+
+  public boolean isSameWriter(User loginUser) {
+    return this.writer.equals(loginUser);
+  }
+  
 }
