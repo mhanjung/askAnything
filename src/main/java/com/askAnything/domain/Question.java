@@ -4,13 +4,17 @@ import javax.persistence.ForeignKey;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import com.askAnything.LocalDateTimeConverter;
 
@@ -26,10 +30,15 @@ public class Question {
   
   private String title;
   
+  @Lob
   private String contents;
   
   @Convert(converter = LocalDateTimeConverter.class)
   private LocalDateTime createDate;
+  
+  @OneToMany(mappedBy="question")
+  @OrderBy("id ASC")
+  private List<Answer> answers;
   
   public Question(){}
   
