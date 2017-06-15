@@ -17,27 +17,32 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 
 import com.askAnything.LocalDateTimeConverter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class Question {
   @Id
   @GeneratedValue
+  @JsonProperty
   private Long id;
   
   @ManyToOne
   @JoinColumn(foreignKey = @ForeignKey(name = "fk_question_writer"))
+  @JsonProperty
   private User writer;
   
+  @JsonProperty
   private String title;
   
   @Lob
+  @JsonProperty
   private String contents;
   
   @Convert(converter = LocalDateTimeConverter.class)
   private LocalDateTime createDate;
   
   @OneToMany(mappedBy="question")
-  @OrderBy("id ASC")
+  @OrderBy("id DESC")
   private List<Answer> answers;
   
   public Question(){}

@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.askAnything.domain.Answer;
 import com.askAnything.domain.AnswerRepository;
@@ -15,9 +16,9 @@ import com.askAnything.domain.Question;
 import com.askAnything.domain.QuestionRepository;
 import com.askAnything.domain.User;
 
-@Controller
-@RequestMapping("/questions/{questionId}/answers")
-public class AnswerController {
+@RestController
+@RequestMapping("/api/questions/{questionId}/answers")
+public class ApiAnswerController {
   @Autowired
   private QuestionRepository questionRepository;
   
@@ -25,16 +26,15 @@ public class AnswerController {
   private AnswerRepository answerRepository;
   
   @PostMapping("")
-  public String create(@PathVariable Long questionId, String contents, Model model, HttpSession session){
-    System.out.println("/questions/{questionId}/answers create");
+  public Answer create(@PathVariable Long questionId, String contents, Model model, HttpSession session){
     if(!HttpSessionUtils.isLoginUser(session)){
       model.addAttribute("errorMessage","You need to Sign in.");
-      return "/user/login";
+      return null;
     }
+    
     User loginUser = HttpSessionUtils.getUserFromSession(session);
     Question question = questionRepository.findOne(questionId);
     Answer answer = new Answer(loginUser, question, contents);
-    answerRepository.save(answer);
-    return String.format("redirect:/questions/%d", questionId);
+    return answerRepository.save(answer);
   }
 }
