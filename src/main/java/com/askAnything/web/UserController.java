@@ -44,16 +44,18 @@ public class UserController {
   }
   
   @PostMapping("/login")
-  public String login(String userId, String password, HttpSession session){
+  public String login(String userId, String password, Model model, HttpSession session){
     User user = userRepository.findByUserId(userId);
     if(user == null){
       System.out.println("Login Failure!");
-      return "redirect:/users/loginForm";
+      model.addAttribute("errorMessage","Your ID doesn't exist.");
+      return "/user/login";
     }
     
     if(!user.matchPassword(password)){
       System.out.println("Login Failure!");
-      return "redirect:/users/loginForm";
+      model.addAttribute("errorMessage","Check your password.");
+      return "/user/login";
     }
     System.out.println("Login Success!");
     session.setAttribute(HttpSessionUtils.USER_SESSION_KEY, user);
@@ -70,12 +72,14 @@ public class UserController {
   @GetMapping("/{id}/form")
   public String updateForm(@PathVariable Long id, Model model, HttpSession session){
     if(!HttpSessionUtils.isLoginUser(session)){
-      return "redirect:/users/loginForm";
+      model.addAttribute("errorMessage","You need to Sign in.");
+      return "/user/login";
     }
     
     User sessionUser = HttpSessionUtils.getUserFromSession(session);
     if(!sessionUser.matchId(id)){
-      throw new IllegalStateException("You can only edit your profile.");
+      model.addAttribute("errorMessage","You can only edit or delete your owns.");
+      return "/user/login";
     }
     
     User user = userRepository.findOne(id);
@@ -84,14 +88,16 @@ public class UserController {
   }
   
   @PutMapping("/{id}")
-  public String update(@PathVariable Long id, User updatedUser, HttpSession session){
+  public String update(@PathVariable Long id, User updatedUser, Model model, HttpSession session){
     if(!HttpSessionUtils.isLoginUser(session)){
-      return "redirect:/users/loginForm";
+      model.addAttribute("errorMessage","You need to Sign in.");
+      return "/user/login";
     }
     
     User sessionUser = HttpSessionUtils.getUserFromSession(session);
     if(!sessionUser.matchId(id)){
-      throw new IllegalStateException("You can only edit your profile.");
+      model.addAttribute("errorMessage","You can only edit or delete your owns.");
+      return "/user/login";
     }
     
     User user = userRepository.findOne(id);
