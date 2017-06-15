@@ -18,8 +18,8 @@ function addAnswer(e){
 			success : onSuccess});
 }
 
-function onError(){
-	console.log("error!");
+function onError(data){
+	alert("You need to Sign in.");
 }
 
 function onSuccess(data, status){
@@ -29,6 +29,8 @@ function onSuccess(data, status){
 	$(".qna-comment-slipp-articles").prepend(template);
 	
 	$(".answer-write textarea").val('');
+	$(".qna-comment-count strong").html(data.question.countOfAnswer);
+	
 }
 
 $(".link-delete-article").click(deleteAnswer);
@@ -49,6 +51,8 @@ function deleteAnswer(e){
 		success : function(data, status){
 			console.log(data);
 			if(data.valid){
+				var count = $(".qna-comment-count strong").html();
+				$(".qna-comment-count strong").html(count-1);
 				deleteBtn.closest("article").remove();
 			}else{
 				alert(data.errorMessage);

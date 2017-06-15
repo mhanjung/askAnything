@@ -37,6 +37,7 @@ public class ApiAnswerController {
     User loginUser = HttpSessionUtils.getUserFromSession(session);
     Question question = questionRepository.findOne(questionId);
     Answer answer = new Answer(loginUser, question, contents);
+    question.addAnswer();
     return answerRepository.save(answer);
   }
   
@@ -51,6 +52,10 @@ public class ApiAnswerController {
       return Result.fail("You can only edit or delete your owns.");
     }
     answerRepository.delete(id);
+    
+    Question question = questionRepository.findOne(questionId);
+    question.deleteAnswer();
+    questionRepository.save(question);
     return Result.ok();
   }
 }
