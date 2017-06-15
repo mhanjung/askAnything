@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,9 +25,11 @@ public class AnswerController {
   private AnswerRepository answerRepository;
   
   @PostMapping("")
-  public String create(@PathVariable Long questionId, String contents, HttpSession session){
+  public String create(@PathVariable Long questionId, String contents, Model model, HttpSession session){
+    System.out.println("/questions/{questionId}/answers create");
     if(!HttpSessionUtils.isLoginUser(session)){
-      return "/users/loginForm";
+      model.addAttribute("errorMessage","You need to Sign in.");
+      return "/user/login";
     }
     User loginUser = HttpSessionUtils.getUserFromSession(session);
     Question question = questionRepository.findOne(questionId);

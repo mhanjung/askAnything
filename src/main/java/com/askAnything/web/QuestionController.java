@@ -24,17 +24,19 @@ public class QuestionController {
   private QuestionRepository questionRepository;
   
   @GetMapping("form")
-  public String form(HttpSession session){
+  public String form(HttpSession session, Model model){
     if(!HttpSessionUtils.isLoginUser(session)){
-      return "/users/loginForm";
+      model.addAttribute("errorMessage","You need to Sign in.");
+      return "/user/login";
     }
     return "/qna/form";
   }
   
   @PostMapping("")
-  public String create(String title, String contents, HttpSession session){
+  public String create(String title, String contents, Model model, HttpSession session){
     if(!HttpSessionUtils.isLoginUser(session)){
-      return "/users/loginForm";
+      model.addAttribute("errorMessage","You need to Sign in.");
+      return "/user/login";
     }
     
     User sessionUser = HttpSessionUtils.getUserFromSession(session);
