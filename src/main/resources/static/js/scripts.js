@@ -33,7 +33,8 @@ function onSuccess(data, status){
 	
 }
 
-$(".link-delete-article").click(deleteAnswer);
+//$(".link-delete-article").on('click',deleteAnswer);
+$('.qna-comment-slipp-articles').on('click','.link-delete-article',deleteAnswer);
 
 function deleteAnswer(e){
 	e.preventDefault();

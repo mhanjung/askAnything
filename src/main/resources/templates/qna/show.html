@@ -20,7 +20,7 @@
                           <img src="https://graph.facebook.com/v2.3/100000059371774/picture" class="article-author-thumb" alt="">
                       </div>
                       <div class="article-header-text">
-                          <a href="/users/92/kimmunsu" class="article-author-name">{{writer.userId}}</a>
+                          {{writer.userId}}
                           <div class="article-header-time" title="permalink">
                               {{formattedCreateDate}}
                               <i class="icon-link"></i>
@@ -59,10 +59,10 @@
                                       <img src="https://graph.facebook.com/v2.3/1324855987/picture" class="article-author-thumb" alt="">
                                   </div>
                                   <div class="article-header-text">
-                                      <a href="/users/1/han" class="article-author-name">{{writer.userId}}</a>
-                                      <a href="#answer-1434" class="article-header-time" title="permalink">
+                                      {{writer.userId}}
+                                      <div class="article-header-time" title="permalink">
                                           {{formattedCreateDate}}
-                                      </a>
+                                      </div>
                                   </div>
                               </div>
                               <div class="article-doc comment-doc">
@@ -70,9 +70,6 @@
                               </div>
                               <div class="article-util">
                                   <ul class="article-util-list">
-                                      <li>
-                                          <a class="link-modify-article" href="/questions/413/answers/1405/form">Edit</a>
-                                      </li>
                                       <li>
                                           <a class="link-delete-article" href="/api/questions/{{question.id}}/answers/{{id}}">Delete</a>
                                       </li>
@@ -95,7 +92,7 @@
     	{{/question}}
     </div>
 </div>
-
+{{> /include/footer}}
 <script type="text/template" id="answerTemplate">
 	<article class="article">
 		<div class="article-header">
@@ -113,9 +110,6 @@
 		<div class="article-util">
 		<ul class="article-util-list">
 			<li>
-				<a class="link-modify-article" href="/api/qna/updateAnswer/{3}">Edit</a>
-			</li>
-			<li>
 				<a class="link-delete-article" href="/api/questions/{3}/answers/{4}">Delete</a>				
 			</li>
 		</ul>
@@ -123,6 +117,6 @@
 	</article>
 </script>
 
-{{> /include/footer}}
+
 	</body>
 </html>
